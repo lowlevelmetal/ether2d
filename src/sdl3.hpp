@@ -12,3 +12,26 @@
 
 #pragma once
 
+// Third party includes
+extern "C" {
+#include <SDL3/SDL_init.h>
+}
+
+/*
+ * Anything that requires SDL3 can use this class
+ */
+
+namespace ether2d::core {
+
+class SDL3 {
+public:
+	SDL3();
+	~SDL3();
+
+	static const SDL_InitFlags initflags = SDL_INIT_AUDIO | SDL_INIT_VIDEO;
+
+private:
+	static bool m_initialized;
+};
+
+} // namespace ether2d::core
