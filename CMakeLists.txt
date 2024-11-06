@@ -16,11 +16,11 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 include(FetchContent)
 
 # Set options before fetching SDL3
-set(SDL_SHARED OFF CACHE BOOL "" FORCE)
+set(SDL_SHARED ON CACHE BOOL "" FORCE)
 set(SDL_STATIC ON CACHE BOOL "" FORCE)
 set(SDL_TEST OFF CACHE BOOL "" FORCE)
 set(SDL_VIRTUAL_JOYSTICK ON CACHE BOOL "" FORCE)
-set(CMAKE_POSITION_INDEPENDENT_CODE ON CACHE BOOL "" FORCE)
+#set(CMAKE_POSITION_INDEPENDENT_CODE ON CACHE BOOL "" FORCE)
 
 # Fetch SDL3
 FetchContent_Declare(
@@ -31,16 +31,19 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(SDL3)
 
+# Set options for spdlog before fetching it
+set(SPDLOG_BUILD_SHARED OFF CACHE BOOL "" FORCE)
+set(SPDLOG_BUILD_PIC ON CACHE BOOL "" FORCE)
+set(SPDLOG_BUILD_EXAMPLE OFF CACHE BOOL "" FORCE)
+set(SPDLOG_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+set(SPDLOG_INSTALL OFF CACHE BOOL "" FORCE)       # Prevent global install
+
 # Fetch spdlog
 FetchContent_Declare(
 	spdlog
 	GIT_REPOSITORY https://github.com/lowlevelmetal/spdlog.git
 	GIT_TAG v1.x
 )
-
-# Set options for spdlog before fetching it
-set(SPDLOG_BUILD_SHARED OFF CACHE BOOL "" FORCE)  # Build static library
-set(SPDLOG_INSTALL OFF CACHE BOOL "" FORCE)       # Prevent global install
 
 FetchContent_MakeAvailable(spdlog)
 
@@ -56,7 +59,7 @@ target_include_directories(ether2d PUBLIC ${SDL3_SOURCE_DIR}/include src/include
 target_include_directories(ether2d_static PUBLIC ${SDL3_SOURCE_DIR}/include src/include)
 
 # Link with deps
-target_link_libraries(ether2d PUBLIC SDL3::SDL3-static spdlog::spdlog)
+target_link_libraries(ether2d PUBLIC SDL3::SDL3 spdlog::spdlog)
 target_link_libraries(ether2d_static PUBLIC SDL3::SDL3-static spdlog::spdlog)
 
 # Set output name

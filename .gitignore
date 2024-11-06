@@ -36,3 +36,6 @@ build/
 
 # Cache directory
 .cache/
+
+# Swap file
+*.swp
