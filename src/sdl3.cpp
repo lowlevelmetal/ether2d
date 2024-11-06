@@ -8,8 +8,17 @@
  */
 
 // Local includes
-#include "sdl3.hpp"
-#include "logger.hpp"
+#include "ether2d/sdl3.hpp"
+#include "ether2d/logger.hpp"
+
+// Third party includes
+extern "C" {
+#include <SDL3/SDL_error.h>
+#include <SDL3/SDL_version.h>
+}
+
+// Standard includes
+#include <stdexcept>
 
 namespace ether2d::core {
 
@@ -17,16 +26,21 @@ bool SDL3::m_initialized = false;
 
 SDL3::SDL3() {
 	if(!m_initialized) {
+		logging::Logger::Get().Info(SDL_GetRevision());
+
 		if(!SDL_Init(initflags)) {
-			logging::Logger::Get().Error("Failed to initialize SDL3");
+			const char *const error = SDL_GetError();
+			logging::Logger::Get().Error(error);
+			throw std::runtime_error(error);
 		}
 
 		m_initialized = true;
 	}
 }
 
-SDL3::~SDL3() {
-
+SDL3::~SDL3() noexcept {
+	if(m_initialized)
+		SDL_Quit();
 }
 
 } // namespace ether2d::core

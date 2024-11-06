@@ -1,3 +1,4 @@
 InlayHints:
   ParameterNames: false
-
+  Designators: false
+  DeducedTypes: false

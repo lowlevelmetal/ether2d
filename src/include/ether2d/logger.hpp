@@ -25,10 +25,25 @@ class Logger {
 public:
 	static Logger& Get();
 
-	void Debug(const std::string msg);
-	void Info(const std::string msg);
-	void Warn(const std::string msg);
-	void Error(const std::string msg);
+	template<typename... Args>
+	void Debug(const std::string &fmt, Args... args) noexcept {
+		m_logger->debug(fmt, args...);
+	}
+	
+	template<typename... Args>	
+	void Info(const std::string &fmt, Args... args) noexcept {
+		m_logger->info(fmt, args...);
+	}
+	
+	template<typename... Args>	
+	void Warn(const std::string &fmt, Args... args) noexcept {
+		m_logger->warn(fmt, args...);
+	}
+	
+	template<typename... Args>	
+	void Error(const std::string &fmt, Args... args) noexcept {
+		m_logger->error(fmt, args...);
+	}
 
 private:
 	Logger();

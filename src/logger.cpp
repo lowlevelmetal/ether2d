@@ -11,7 +11,7 @@
 #include <filesystem>
 
 // Local includes
-#include "logger.hpp"
+#include "ether2d/logger.hpp"
 
 namespace ether2d::logging {
 
@@ -32,22 +32,6 @@ Logger::Logger() {
 
 	spdlog::sinks_init_list sink_list = {m_console_sink, m_file_sink};
 	m_logger = std::make_shared<spdlog::logger>("multi_sink_logger", sink_list);
-}
-
-void Logger::Debug(const std::string msg) {
-	m_logger->debug(msg);
-}
-
-void Logger::Info(const std::string msg) {
-	m_logger->info(msg);
-}
-
-void Logger::Warn(const std::string msg) {
-	m_logger->warn(msg);
-}
-
-void Logger::Error(const std::string msg) {
-	m_logger->error(msg);
 }
 
 } // namespace ether2d::logging

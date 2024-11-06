@@ -26,7 +26,7 @@ namespace ether2d::core {
 class SDL3 {
 public:
 	SDL3();
-	~SDL3();
+	~SDL3() noexcept;
 
 	static const SDL_InitFlags initflags = SDL_INIT_AUDIO | SDL_INIT_VIDEO;
 
