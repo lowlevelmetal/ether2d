@@ -10,6 +10,7 @@
 // Local includes
 #include "ether2d/sdl3.hpp"
 #include "ether2d/logger.hpp"
+#include "ether2d/sdl3errorcodes.hpp"
 
 // Third party includes
 extern "C" {
@@ -18,7 +19,7 @@ extern "C" {
 }
 
 // Standard includes
-#include <stdexcept>
+#include <system_error>
 
 namespace ether2d::core {
 
@@ -30,8 +31,8 @@ SDL3::SDL3() {
 
 		if(!SDL_Init(initflags)) {
 			const char *const error = SDL_GetError();
-			logging::Logger::Get().Error(error);
-			throw std::runtime_error(error);
+			std::error_code ec((int)SDL3ErrorCodes::INIT, std::generic_category());
+			throw std::system_error(ec, error);
 		}
 
 		m_initialized = true;

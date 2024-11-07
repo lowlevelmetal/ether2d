@@ -22,6 +22,7 @@ public:
 
 	virtual bool EnableFullscreen() = 0;
 	virtual bool SetResolution(uint16_t resx, uint16_t resy) = 0;
+	virtual bool PollEvents() = 0;
 
 };
 
