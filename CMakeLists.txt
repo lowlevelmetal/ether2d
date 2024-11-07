@@ -55,8 +55,8 @@ add_library(ether2d SHARED ${SOURCES})
 add_library(ether2d_static STATIC ${SOURCES})
 
 # Setup includes
-target_include_directories(ether2d PUBLIC ${SDL3_SOURCE_DIR}/include src/include)
-target_include_directories(ether2d_static PUBLIC ${SDL3_SOURCE_DIR}/include src/include)
+target_include_directories(ether2d PUBLIC src/include)
+target_include_directories(ether2d_static PUBLIC src/include)
 
 # Link with deps
 target_link_libraries(ether2d PUBLIC SDL3::SDL3 spdlog::spdlog)

@@ -26,29 +26,27 @@ public:
 	static Logger& Get();
 
 	template<typename... Args>
-	void Debug(const std::string &fmt, Args... args) noexcept {
+	void Debug(const std::string &fmt, Args... args) const noexcept {
 		m_logger->debug(fmt, args...);
 	}
 	
 	template<typename... Args>	
-	void Info(const std::string &fmt, Args... args) noexcept {
+	void Info(const std::string &fmt, Args... args) const noexcept {
 		m_logger->info(fmt, args...);
 	}
 	
 	template<typename... Args>	
-	void Warn(const std::string &fmt, Args... args) noexcept {
+	void Warn(const std::string &fmt, Args... args) const noexcept {
 		m_logger->warn(fmt, args...);
 	}
 	
 	template<typename... Args>	
-	void Error(const std::string &fmt, Args... args) noexcept {
+	void Error(const std::string &fmt, Args... args) const noexcept {
 		m_logger->error(fmt, args...);
 	}
 
 private:
 	Logger();
-
-	static std::string m_log_file; 
 
 	std::shared_ptr<spdlog::sinks::stdout_color_sink_mt> m_console_sink;
 	std::shared_ptr<spdlog::sinks::rotating_file_sink_mt> m_file_sink;
