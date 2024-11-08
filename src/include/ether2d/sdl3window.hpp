@@ -40,7 +40,7 @@ public:
 
 	bool EnableFullscreen() override;
 	bool SetResolution(uint16_t resx, uint16_t resy) override;
-	bool PollEvents() override;
+	core::WindowEvent PollEvents() override;
 
 	static const SDL_WindowFlags DEFAULT_WINDOW_FLAGS = SDL_WINDOW_OPENGL;
 

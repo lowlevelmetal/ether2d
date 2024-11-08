@@ -32,6 +32,10 @@ Logger::Logger() {
 
 	spdlog::sinks_init_list sink_list = {m_console_sink, m_file_sink};
 	m_logger = std::make_shared<spdlog::logger>("multi_sink_logger", sink_list);
+
+#ifdef _DEBUG
+	m_logger->set_level(spdlog::level::debug);
+#endif
 }
 
 } // namespace ether2d::logging

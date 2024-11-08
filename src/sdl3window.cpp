@@ -25,19 +25,23 @@ bool SDL3Window::EnableFullscreen() {
 	return SDL_SetWindowFullscreen(m_window, true);
 }
 
-bool SDL3Window::PollEvents() {
+core::WindowEvent SDL3Window::PollEvents() {
 	SDL_Event event;
+
 	while(SDL_PollEvent(&event)) {
 		switch(event.type) {
 			case SDL_EVENT_QUIT:
-				logging::Logger::Get().Info("SDL3Window::PollEvents() - Quit event detected");
-				return false;
+				logging::Logger::Get().Debug("Quit event received");
+				return {core::WindowPollStates::QUIT};
+			case SDL_EVENT_MOUSE_MOTION:
+				logging::Logger::Get().Debug("Mouse motion event received");
+				return {core::WindowPollStates::MOUSE_MOTION, {event.motion.x, event.motion.y}};
 			default:
 				break;
 		}
 	}
 
-	return true;
+	return {core::WindowPollStates::CONTINUE};
 }
 
 SDL3Window::SDL3Window(const char *title, uint16_t resx, uint16_t resy, bool fullscreen) {
@@ -63,13 +67,13 @@ SDL3Window::~SDL3Window() {
 		SDL_DestroyWindow(m_window);
 	}
 
-	logging::Logger::Get().Info("Window destroyed successfully");
+	logging::Logger::Get().Debug("Window destroyed successfully");
 }
 
 SDL3WindowRet SDL3Window::Create(std::string &title, uint16_t resx, uint16_t resy, bool fullscreen) {
 	SDL3Window *window = nullptr;
 
-	logging::Logger::Get().Info("Creating window");
+	logging::Logger::Get().Debug("Creating window");
 
 	try {
 		window = new SDL3Window(title.c_str(), resx, resy, fullscreen);
@@ -78,7 +82,7 @@ SDL3WindowRet SDL3Window::Create(std::string &title, uint16_t resx, uint16_t res
 		return {std::unique_ptr<SDL3Window>(nullptr), (SDL3ErrorCodes)e.code().value()};
 	}
 
-	logging::Logger::Get().Info("Window created successfully");
+	logging::Logger::Get().Debug("Window created successfully");
 
 	return {std::unique_ptr<SDL3Window>(window), SDL3ErrorCodes::NONE};
 }

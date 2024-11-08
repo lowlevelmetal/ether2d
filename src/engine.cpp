@@ -13,24 +13,33 @@
 
 namespace ether2d {
 
-bool Engine::PollEvent() {
-	return m_window->PollEvents();
+// Ask the window if it has any events
+core::WindowEvent Engine::PollEvent() {
+	core::WindowEvent event = m_window->PollEvents();
+	switch(event.state) {
+		case core::WindowPollStates::MOUSE_MOTION:
+			m_mouse_coords = event.mouse_coords;
+			logging::Logger::Get().Debug("Mouse coordinates: x: {}, y: {}", m_mouse_coords.x, m_mouse_coords.y);
+			break;
+	}
+
+	return event;
 }
 
 EngineRet Engine::Create(std::string title, uint16_t width, uint16_t height, bool fullscreen) {
 	Engine *engine = nullptr;
 
-	logging::Logger::Get().Info("Creating engine");
+	logging::Logger::Get().Debug("Creating engine");
 
 	try {
 		engine = new Engine(title, width, height, fullscreen);
 	} catch(const std::runtime_error &e) {
-		return std::make_pair(std::shared_ptr<Engine>(nullptr), false);
+		return {std::shared_ptr<Engine>(nullptr), false};
 	}
 
-	logging::Logger::Get().Info("Engine created successfully");
+	logging::Logger::Get().Debug("Engine created successfully");
 
-	return std::make_pair(std::shared_ptr<Engine>(engine), true);
+	return {std::shared_ptr<Engine>(engine), true};
 }
 
 Engine::Engine(std::string &title, uint16_t width, uint16_t height, bool fullscreen) {

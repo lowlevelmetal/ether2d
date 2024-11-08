@@ -27,12 +27,13 @@ class Engine : public core::SDL3 {
 public:
 	static EngineRet Create(std::string title, uint16_t width, uint16_t height, bool fullscreen = false);
 
-	bool PollEvent();
+	core::WindowEvent PollEvent();
 
 private:
 	Engine(std::string &title, uint16_t width, uint16_t height, bool fullscreen = false);
 
 	std::shared_ptr<windows::SDL3Window> m_window;
+	core::MouseCoordinates m_mouse_coords;
 };
 
 } // namespace ether2d

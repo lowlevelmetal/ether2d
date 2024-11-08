@@ -26,23 +26,39 @@ public:
 	static Logger& Get();
 
 	template<typename... Args>
-	void Debug(const std::string &fmt, Args... args) const noexcept {
-		m_logger->debug(fmt, args...);
+	inline void Debug(fmt::format_string<Args...>&& fmt, Args &&...args) const {
+		m_logger->debug(fmt, std::forward<Args>(args)...);
+	}
+
+	inline void Debug(const char *const msg) const {
+		m_logger->debug(msg);
 	}
 	
 	template<typename... Args>	
-	void Info(const std::string &fmt, Args... args) const noexcept {
-		m_logger->info(fmt, args...);
+	inline void Info(fmt::format_string<Args...>&& fmt, Args &&...args) const {
+		m_logger->info(fmt, std::forward<Args>(args)...);
+	}
+
+	inline void Info(const char *const msg) const {
+		m_logger->info(msg);
 	}
 	
-	template<typename... Args>	
-	void Warn(const std::string &fmt, Args... args) const noexcept {
-		m_logger->warn(fmt, args...);
+	template<typename... Args>
+	inline void Warn(fmt::format_string<Args...>&& fmt, Args &&...args) const {
+		m_logger->warn(fmt, std::forward<Args>(args)...);
 	}
-	
+
+	inline void Warn(const char *const msg) const {
+		m_logger->warn(msg);
+	}
+
 	template<typename... Args>	
-	void Error(const std::string &fmt, Args... args) const noexcept {
-		m_logger->error(fmt, args...);
+	inline void Error(fmt::format_string<Args...>&& fmt, Args &&...args) const {
+		m_logger->error(fmt, std::forward<Args>(args)...);
+	}
+
+	inline void Error(const char *const msg) const {
+		m_logger->error(msg);
 	}
 
 private:
